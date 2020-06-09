@@ -4350,6 +4350,30 @@ DEFUN (no_neighbor_passive,
 	return peer_flag_unset_vty(vty, argv[idx_peer]->arg, PEER_FLAG_PASSIVE);
 }
 
+/* neighbor graceful shutdown. */
+DEFUN (neighbor_graceful_shutdown,
+       neighbor_graceful_shutdown_cmd,
+       "neighbor <A.B.C.D|X:X::X:X|WORD> graceful-shutdown"
+       NEIGHBOR_STR
+       NEIGHBOR_ADDR_STR2
+       "Apply graceful-shutdown to neighbor\n")
+{
+	int idx_peer = 1;
+	return peer_flag_set_vty(vty, argv[idx_peer]->arg, PEER_FLAG_GRACEFUL_SHUTDOWN);
+}
+
+DEFUN (no_neighbor_graceful_shutdown,
+      no_neighbor_graceful_shutdown_cmd,
+      "no neighbor <A.B.C.D|X:X::X:X|WORD> graceful-shutdown",
+      NO_STR
+      NEIGHBOR_STR
+      NEIGHBOR_ADDR_STR2
+      "Don't apply graceful-shutdown to neighbor\n")
+{
+	int idx_peer = 2;
+	return peer_flag_unset_vty(vty, argv[idx_peer]->arg, PEER_FLAG_GRACEFUL_SHUTDOWN);
+}
+
 /* neighbor shutdown. */
 DEFUN (neighbor_shutdown_msg,
        neighbor_shutdown_msg_cmd,
@@ -14601,6 +14625,10 @@ static void bgp_config_write_peer_global(struct vty *vty, struct bgp *bgp,
 	if (peergroup_flag_check(peer, PEER_FLAG_PASSIVE))
 		vty_out(vty, " neighbor %s passive\n", addr);
 
+	/* graceful shutdown */
+	if (peergroup_flag_check(peer, PEER_FLAG_GRACEFUL_SHUTDOWN))
+	vty_out(vty, " neighbor %s graceful-shutdown\n", addr);
+
 	/* ebgp-multihop */
 	if (peer->sort != BGP_PEER_IBGP && peer->ttl != BGP_DEFAULT_TTL
 	    && !(peer->gtsm_hops != BGP_GTSM_HOPS_DISABLED
@@ -16331,6 +16359,9 @@ void bgp_vty_init(void)
 	install_element(BGP_NODE, &neighbor_passive_cmd);
 	install_element(BGP_NODE, &no_neighbor_passive_cmd);
 
+	/* "neighbor graceful-shutdown commands. */
+	install_element(BGP_NODE, &neighbor_graceful_shutdown_cmd);
+	install_element(BGP_NODE, &no_neighbor_graceful_shutdown_cmd);
 
 	/* "neighbor shutdown" commands. */
 	install_element(BGP_NODE, &neighbor_shutdown_cmd);
