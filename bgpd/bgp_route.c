@@ -5019,13 +5019,19 @@ void bgp_static_update(struct bgp *bgp, const struct prefix *p,
 			return;
 		}
 
-		if (CHECK_FLAG(bgp->flags, BGP_FLAG_GRACEFUL_SHUTDOWN))
+		if (CHECK_FLAG(bgp->flags,
+			       BGP_FLAG_GRACEFUL_SHUTDOWN) ||
+		    CHECK_FLAG(peer->flags,
+			       PEER_FLAG_GRACEFUL_SHUTDOWN))
 			bgp_attr_add_gshut_community(&attr_tmp);
 
 		attr_new = bgp_attr_intern(&attr_tmp);
 	} else {
 
-		if (CHECK_FLAG(bgp->flags, BGP_FLAG_GRACEFUL_SHUTDOWN))
+		if (CHECK_FLAG(bgp->flags,
+			       BGP_FLAG_GRACEFUL_SHUTDOWN) ||
+		    CHECK_FLAG(peer->flags,
+			       PEER_FLAG_GRACEFUL_SHUTDOWN))
 			bgp_attr_add_gshut_community(&attr);
 
 		attr_new = bgp_attr_intern(&attr);
@@ -7267,7 +7273,10 @@ void bgp_redistribute_add(struct bgp *bgp, struct prefix *p,
 			}
 		}
 
-		if (CHECK_FLAG(bgp->flags, BGP_FLAG_GRACEFUL_SHUTDOWN))
+		if (CHECK_FLAG(bgp->flags,
+			       BGP_FLAG_GRACEFUL_SHUTDOWN) ||
+		    CHECK_FLAG(peer->flags,
+			       PEER_FLAG_GRACEFUL_SHUTDOWN))
 			bgp_attr_add_gshut_community(&attr_new);
 
 		bn = bgp_afi_node_get(bgp->rib[afi][SAFI_UNICAST], afi,
