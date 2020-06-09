@@ -4351,25 +4351,25 @@ DEFUN (no_neighbor_passive,
 }
 
 /* neighbor graceful shutdown. */
-DEFUN (neighbor_graceful_shutdown,
-       neighbor_graceful_shutdown_cmd,
-       "neighbor <A.B.C.D|X:X::X:X|WORD> graceful-shutdown"
-       NO_STR
+DEFUN (neighbor_passive,
+       neighbor_passive_cmd,
+       "neighbor <A.B.C.D|X:X::X:X|WORD> graceful-shutdown",
        NEIGHBOR_STR
        NEIGHBOR_ADDR_STR2
        "Apply graceful-shutdown to neighbor\n")
 {
 	int idx_peer = 1;
-	return peer_flag_set_vty(vty, argv[idx_peer]->arg, PEER_FLAG_GRACEFUL_SHUTDOWN);
+	return peer_flag_set_vty(vty, argv[idx_peer]->arg,
+				 PEER_FLAG_GRACEFUL_SHUTDOWN);
 }
 
-DEFUN (no_neighbor_graceful_shutdown,
-      no_neighbor_graceful_shutdown_cmd,
-      "no neighbor <A.B.C.D|X:X::X:X|WORD> graceful-shutdown",
-      NO_STR
-      NEIGHBOR_STR
-      NEIGHBOR_ADDR_STR2
-      "Don't apply graceful-shutdown to neighbor\n")
+DEFUN (no_neighbor_passive,
+       no_neighbor_passive_cmd,
+       "no neighbor <A.B.C.D|X:X::X:X|WORD> graceful-shutdown",
+       NO_STR
+       NEIGHBOR_STR
+       NEIGHBOR_ADDR_STR2
+       "Don't apply graceful-shutdown to neighbor\n")
 {
 	int idx_peer = 2;
 	return peer_flag_unset_vty(vty, argv[idx_peer]->arg, PEER_FLAG_GRACEFUL_SHUTDOWN);
