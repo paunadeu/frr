@@ -7275,7 +7275,7 @@ void bgp_redistribute_add(struct bgp *bgp, struct prefix *p,
 
 		if (CHECK_FLAG(bgp->flags,
 			       BGP_FLAG_GRACEFUL_SHUTDOWN) ||
-		    CHECK_FLAG(peer->flags,
+		    CHECK_FLAG(bgp->peer_self->flags,
 			       PEER_FLAG_GRACEFUL_SHUTDOWN))
 			bgp_attr_add_gshut_community(&attr_new);
 
