@@ -1115,7 +1115,7 @@ struct peer {
 #define PEER_FLAG_GRACEFUL_RESTART_GLOBAL_INHERIT (1 << 25) /* Global-Inherit */
 
 	/* BGP-Graceful Shutdown Peer related  flags */
-#define PEER_FLAG_GRACEFUL_SHUTDOWN (1 << 25) /* graceful-shutdown */
+#define PEER_FLAG_GRACEFUL_SHUTDOWN (1 << 26) /* graceful-shutdown */
 
 	/*
 	 *GR-Disabled mode means unset PEER_FLAG_GRACEFUL_RESTART
