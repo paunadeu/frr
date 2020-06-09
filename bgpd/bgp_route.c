@@ -1943,7 +1943,8 @@ bool subgroup_announce_check(struct bgp_node *rn, struct bgp_path_info *pi,
 	if (aspath_check_as_zero(attr->aspath))
 		return 0;
 
-	if (CHECK_FLAG(bgp->flags, BGP_FLAG_GRACEFUL_SHUTDOWN)) {
+	/* Check if BGP have globally graceful shutdown or peer has it */
+	if (CHECK_FLAG(bgp->flags, BGP_FLAG_GRACEFUL_SHUTDOWN) || CHECK_FLAG(peer, PEER_FLAG_GRACEFUL_SHUTDOWN)) {
 		if (peer->sort == BGP_PEER_IBGP
 		    || peer->sort == BGP_PEER_CONFED) {
 			attr->flag |= ATTR_FLAG_BIT(BGP_ATTR_LOCAL_PREF);
@@ -3476,7 +3477,9 @@ int bgp_update(struct peer *peer, const struct prefix *p, uint32_t addpath_id,
 			/* If graceful-shutdown is configured then add the GSHUT
 			 * community to all paths received from eBGP peers */
 		} else if (CHECK_FLAG(peer->bgp->flags,
-				      BGP_FLAG_GRACEFUL_SHUTDOWN))
+				      BGP_FLAG_GRACEFUL_SHUTDOWN) ||
+			   CHECK_FLAG(peer,
+					 PEER_FLAG_GRACEFUL_SHUTDOWN))
 			bgp_attr_add_gshut_community(&new_attr);
 	}
 
