@@ -3481,7 +3481,7 @@ int bgp_update(struct peer *peer, const struct prefix *p, uint32_t addpath_id,
 			 * community to all paths received from eBGP peers */
 		} else if (CHECK_FLAG(peer->bgp->flags,
 				      BGP_FLAG_GRACEFUL_SHUTDOWN) ||
-			   CHECK_FLAG(peer,
+			   CHECK_FLAG(peer->flags,
 					 PEER_FLAG_GRACEFUL_SHUTDOWN))
 			bgp_attr_add_gshut_community(&new_attr);
 	}
