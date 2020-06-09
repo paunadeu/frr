@@ -4354,6 +4354,7 @@ DEFUN (no_neighbor_passive,
 DEFUN (neighbor_graceful_shutdown,
        neighbor_graceful_shutdown_cmd,
        "neighbor <A.B.C.D|X:X::X:X|WORD> graceful-shutdown"
+       NO_STR
        NEIGHBOR_STR
        NEIGHBOR_ADDR_STR2
        "Apply graceful-shutdown to neighbor\n")
