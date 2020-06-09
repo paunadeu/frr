@@ -1944,7 +1944,10 @@ bool subgroup_announce_check(struct bgp_node *rn, struct bgp_path_info *pi,
 		return 0;
 
 	/* Check if BGP have globally graceful shutdown or peer has it */
-	if (CHECK_FLAG(bgp->flags, BGP_FLAG_GRACEFUL_SHUTDOWN) || CHECK_FLAG(peer, PEER_FLAG_GRACEFUL_SHUTDOWN)) {
+	if (CHECK_FLAG(bgp->flags,
+		       BGP_FLAG_GRACEFUL_SHUTDOWN)
+	    || CHECK_FLAG(peer->flags,
+			  PEER_FLAG_GRACEFUL_SHUTDOWN)) {
 		if (peer->sort == BGP_PEER_IBGP
 		    || peer->sort == BGP_PEER_CONFED) {
 			attr->flag |= ATTR_FLAG_BIT(BGP_ATTR_LOCAL_PREF);
